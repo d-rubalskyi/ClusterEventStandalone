@@ -62,11 +62,11 @@ int main()
 
 	// Sending JSON command
 
-	ClusterCommandManager.SendClusterCommandJsn("MyCommand", "MyType", "");
+	//ClusterCommandManager.SendClusterCommandJsn("MyCommand", "MyType", "");
 
 	// Sending BINARY command
 
 	uint8_t Data[] = { 42, 146 };
 
-	ClusterCommandManager.SendClusterCommandBin(1234, false, false, Data, 1);
-}
+	ClusterCommandManager.SendClusterCommandBin(1234, false, false, Data, 2);
+ }

@@ -117,21 +117,33 @@ std::vector<uint8_t> UClusterCommandManager::SerializeBinCommand(uint32_t EventI
 	uint32_t AuxParameterSize = sizeof(uint8_t);
 	uint32_t TotalDataSize = sizeof(uint8_t) * Count;
 
-	std::vector<uint8_t> Buffer(EventIdSize + AuxParameterSize * 2 + TotalDataSize);
+	uint32_t PacketSize = EventIdSize + AuxParameterSize * 2 + TotalDataSize;
+	size_t HeaderSize = sizeof(PacketSize);
 
-	memcpy(Buffer.data(), &EventId, EventIdSize);
-	memcpy(Buffer.data() + EventIdSize, &SystemEvent, AuxParameterSize);
-	memcpy(Buffer.data() + EventIdSize + AuxParameterSize, &ShouldRepeat, AuxParameterSize);
-	memcpy(Buffer.data() + EventIdSize + AuxParameterSize * 2, Value, TotalDataSize);
+	std::vector<uint8_t> Buffer(HeaderSize + PacketSize);
+
+	memcpy(Buffer.data(), &PacketSize, HeaderSize);
+	memcpy(Buffer.data() + HeaderSize, &EventId, EventIdSize);
+	memcpy(Buffer.data() + HeaderSize + EventIdSize, &SystemEvent, AuxParameterSize);
+	memcpy(Buffer.data() + HeaderSize + EventIdSize + AuxParameterSize, &ShouldRepeat, AuxParameterSize);
+	memcpy(Buffer.data() + HeaderSize + EventIdSize + AuxParameterSize * 2, Value, TotalDataSize);
 
 	return Buffer;
 }
 
 bool UClusterCommandManager::SendClusterCommandJsn(std::string const& Cmd)
 {
-	ssize_t BytesWritten = JsnConnector.write_n(Cmd.data(), Cmd.size());
+	uint32_t PacketSize = Cmd.length();
+	size_t HeaderSize = sizeof(PacketSize);
 
-	if (BytesWritten != Cmd.size())
+	std::vector<uint8_t> Buffer(HeaderSize + PacketSize);
+
+	memcpy(Buffer.data(), &PacketSize, HeaderSize);
+	memcpy(Buffer.data() + HeaderSize, Cmd.data(), PacketSize);
+
+	ssize_t BytesWritten = JsnConnector.write_n(Buffer.data(), Buffer.size());
+
+	if (BytesWritten != Buffer.size())
 	{
 		LastErrorStrJsn = JsnConnector.last_error_str();
 		return false;
