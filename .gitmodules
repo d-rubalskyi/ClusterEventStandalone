@@ -1,0 +1,3 @@
+[submodule "src/ThirdParty/sockpp"]
+	path = src/ThirdParty/sockpp
+	url = https://github.com/fpagliughi/sockpp.git
