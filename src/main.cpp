@@ -1,13 +1,15 @@
 #include "sockpp/tcp_connector.h"
 
 #include <string>
+#include "ClusterCommandManager.h"
 
+/*
 bool SendClusterCommand(sockpp::tcp_connector& Connector, std::string const& Cmd)
 {
 	uint32_t PacketSize = Cmd.length();
 	size_t HeaderSize = sizeof(PacketSize);
 
-	std::vector<uint8_t> Buffer(sizeof(uint32_t) + PacketSize);
+	std::vector<uint8_t> Buffer(HeaderSize + PacketSize);
 	
 	memcpy(Buffer.data(), &PacketSize, HeaderSize);
 	memcpy(Buffer.data() + HeaderSize, Cmd.data(), PacketSize);
@@ -24,9 +26,11 @@ bool SendClusterCommand(sockpp::tcp_connector& Connector, std::string const& Cmd
 
 	return true;
 }
+*/
 
 int main()
 {
+	/*
 	sockpp::initialize();
 	
 	std::string Host = "127.0.0.1";
@@ -52,4 +56,17 @@ int main()
 	std::string Cmd = "{\"Name\": \"EventName\", \"Type\": \"EventType\", \"Category\": \"EventCategory\", \"Parameters\": {\"SomeField\":\"SomeField\"}}";
 
 	SendClusterCommand(Connector, Cmd);
+	*/
+
+	UClusterCommandManager ClusterCommandManager("127.0.0.1");
+
+	// Sending JSON command
+
+	ClusterCommandManager.SendClusterCommandJsn("MyCommand", "MyType", "");
+
+	// Sending BINARY command
+
+	uint8_t Data[] = { 42, 146 };
+
+	ClusterCommandManager.SendClusterCommandBin(1234, false, false, Data, 1);
 }
