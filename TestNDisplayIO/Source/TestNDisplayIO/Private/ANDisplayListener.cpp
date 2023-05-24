@@ -29,7 +29,7 @@ void ANDisplayListener::BeginPlay()
 		if (!ListenerBinaryDelegate.IsBound())
 		{
 			ListenerBinaryDelegate = FOnClusterEventBinaryListener::CreateUObject(this, &ANDisplayListener::OnClusterEventBinary);
-			ClusterManager->AddClusterEventJsonListener(ListenerJsonDelegate);
+			ClusterManager->AddClusterEventBinaryListener(ListenerBinaryDelegate);
 		}
 	}
 }
@@ -54,10 +54,10 @@ void ANDisplayListener::Tick(float DeltaTime)
 
 void ANDisplayListener::OnClusterEventJson(const FDisplayClusterClusterEventJson& Event)
 {
-	UE_LOG(LogBlueprint, Warning, TEXT("Received command %s of type %s"), *Event.Name, *Event.Type);
+	UE_LOG(LogBlueprint, Display, TEXT("Received command %s of type %s"), *Event.Name, *Event.Type);
 }
 
 void ANDisplayListener::OnClusterEventBinary(const FDisplayClusterClusterEventBinary& Event)
 {
-	UE_LOG(LogBlueprint, Warning, TEXT("Received command with ID %i"), Event.EventId);
+	UE_LOG(LogBlueprint, Display, TEXT("Received command with ID %i"), Event.EventId);
 }
