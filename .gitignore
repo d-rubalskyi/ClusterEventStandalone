@@ -11,5 +11,6 @@ CTestTestfile.cmake
 _deps
 
 Build/
-TestNDisplayIO/Saved/
 TestNDisplayIO/Intermediate/
+TestNDisplayIO/Saved/
+TestNDisplayIO/.vs/
