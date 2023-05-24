@@ -4,9 +4,9 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/Actor.h"
-#include "../../../../../Epic/UnrealEngine-5.3/UnrealEngine/Engine/Plugins/Runtime/nDisplay/Source/DisplayCluster/Public/IDisplayCluster.h"
-#include "../../../../../Epic/UnrealEngine-5.3/UnrealEngine/Engine/Plugins/Runtime/nDisplay/Source/DisplayCluster/Public/Cluster/DisplayClusterClusterEvent.h"
-#include "../../../../../Epic/UnrealEngine-5.3/UnrealEngine/Engine/Plugins/Runtime/nDisplay/Source/DisplayCluster/Public/Cluster/IDisplayClusterClusterManager.h"
+#include "IDisplayCluster.h"
+#include "Cluster/DisplayClusterClusterEvent.h"
+#include "Cluster/IDisplayClusterClusterManager.h"
 #include "ANDisplayListener.generated.h"
 
 class IDisplayClusterClusterEventListener;
